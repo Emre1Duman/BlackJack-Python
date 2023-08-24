@@ -11,41 +11,75 @@ def setup_game():
         player_cards.extend(random.choices(cards))
         computer_cards.extend(random.choices(cards))
 
+computer_score = 0
+player_score = 0
        
-
-# while endgame == False:
-#     start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
-#     if start == "y" and counter == 0:
-#         setup_game()
-#         counter += 1
-#     elif start == "n":
-#         endgame = True
-#     sum_of_player_cards = sum(player_cards)
-#     sum_of_computer_cards = sum(computer_cards)
-#     print(f"your cards: {player_cards}, current score: {sum_of_player_cards}")
-#     print(f"Computer's first card: {computer_cards[0]}")
-#     another_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
-#     if another_card == "y":
-#         player_cards.extend(random.choice(cards))
-#         computer_cards.extend(random.choice(cards))
-#     elif another_card == "n":
-#         if sum_of_computer_cards < 21:
-#             computer_cards.extend(random.choice(cards))
-
 start = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
 if start == "y":
     setup_game()
+    player_score = sum(player_cards)
+    computer_score = sum(computer_cards)
+    print(f"Your current cards: {player_cards} your current score: {player_score}")
+    print(f"Computers first card: {computer_cards[0]}, computers current score: {computer_score}")
+    while endgame == False:
+        player_score = sum(player_cards)
+        computer_score = sum(computer_cards)
+        if player_score == 21:
+            endgame = True
+            print("You have a blackjack, you win!")
+        elif computer_score == 21:
+            endgame = True
+            print("Computer has a blackjack, you Lose!")
+        elif player_score == 21 and computer_score == 21:
+            print("It's a draw")       
+        if 11 in player_cards and player_score > 21:
+            index = player_cards.index(11)
+            player_cards[index] = 1
+            print(f"if ace is a 1, still over 21? {player_score}")
+            if player_score > 21:
+                endgame = True
+                print("It's a bust, you lose!")
+        elif player_score > 21:
+            endgame = True
+            print("It's a bust, you lose!2")
+            endgame = True
+        new_card = input("Do you want to draw another card? Type 'y' or 'n'. ").lower()
+        if new_card == 'n': 
+            while computer_score < 17:
+                computer_cards.extend(random.choices(cards))
+                computer_score = sum(computer_cards)
+            if computer_score > 21:
+                print("You win!")
+                endgame = True
+            elif player_score > computer_score:
+                print("You lose!")
+                endgame = True
+            elif player_score < computer_score:
+                print("You win!")
+                endgame = True
+            elif player_score == computer_score:
+                print("Its a draw")
+        elif new_card == "y":
+            player_cards.extend(random.choices(cards))
+else:
+    print("Goodbye")
 
-    print(f"Your cards: {player_cards}, current score: ")
-    print(f"Computer's first card: {computer_cards[0]}")
-elif start == "n":
-    endgame = True
-another_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
-if another_card == "y":
-    player_cards.extend(random.choices(cards))
-    computer_cards.extend(random.choices(cards))
-    print(f"Your cards: {player_cards}, current score: ")
-    print(f"Computer's first card: {computer_cards[0]}")
+
+
+
+
+
+
+#     print(f"Your cards: {player_cards}, current score: ")
+#     print(f"Computer's first card: {computer_cards[0]}")
+# elif start == "n":
+#     endgame = True
+# another_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
+# if another_card == "y":
+#     player_cards.extend(random.choices(cards))
+#     computer_cards.extend(random.choices(cards))
+#     print(f"Your cards: {player_cards}, current score: ")
+#     print(f"Computer's first card: {computer_cards[0]}")
 
 
 
